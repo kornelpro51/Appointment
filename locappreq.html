@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Appointment Request</title>
+
+<link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'>
+<link href="res/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="res/css/appstyles.css" rel="stylesheet" type="text/css" />
+ <!--[if lt IE 9]>
+      <script src="res/js/libs/html5shiv.js"></script>
+      <script src="res/js/libs/respond.min.js"></script>
+<![endif]-->
+<script src="res/js/libs/jquery-1.8.3.min.js"></script>
+<script src="res/js/libs/jquery.placeholder.min.js"></script>
+<script src="res/bootstrap/js/bootstrap.min.js"></script>
+<script src="res/js/libs/jquery-ui.min.js"></script>
+<script src="res/js/libs/moment.min.js"></script>
+<script src="res/js/libs/jquery.touchwipe.1.1.1.js"></script>
+<script src="res/js/libs/function.js"></script>
+<script src="res/js/libs/mixpanel.js"></script>
+
+
+<script type="text/javascript">
+//Datepicker
+ 	 $(function() {
+		$( "#reqDate" ).datepicker({
+			//dateFormat: 'DD, d MM, yy',
+			dateFormat: 'mm/dd/yy',
+			constrainInput : true,
+			minDate: 0,
+		});
+	 });
+</script>
+
+</head>
+<body xmlns:ng="http://angularjs.org" id="ng-app" ng-app="pav" ng-controller=" pav.ng.locappreqController " ng-click="pav.pages.locappreq.model.search.clearErrors();">
+	<script type="text/javascript">
+		mixpanel.track('LocAppReq');
+	</script>
+
+	 <script type="text/javascript">
+ 		function printConf() {
+			window.print();
+ 			//$("#success_popup").hide();
+ 		}
+	</script>
+
+	 <!--Modals-->
+	<section class="login_overlay " id="error_popup">
+		<form ng-animate=" {enter: 'roll-enter'} " ng-submit=" pav.pages.locappreq.model.details.backToReferrer(); ">
+			<div class="modal-dialog">
+				<div class="modal-content panel panel-danger">
+					<div class="modal-header panel-heading">
+						<h4 class="text-center panel-title">Error in making appointment request</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<h4 class="text-center marg_bot">Failed to submit your appointment request, Please try later</h4>
+						<div class="text-right">
+							<button type="button" class="btn btn-primary" ng-click=" pav.pages.locappreq.model.details.closePopup();">Close</button>
+							<button type="submit" class="btn btn-primary">Back to {{ pav.pages.locappreq.model.details.content.locBusName }} </button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</section>
+
+	<section class="login_overlay " id="success_popup">
+		<form ng-animate=" {enter: 'roll-enter'} " ng-submit=" pav.pages.locappreq.model.details.backToReferrer(); ">
+			<div class="modal-dialog">
+				<div class="modal-content reservation_info panel panel-success">
+					<div class="modal-header panel-heading">
+						<h4 class="text-center panel-title">Summary of Appointment request</h4>
+					</div>
+					<div class="modal-body reservation_info">
+						<table class="table ">
+							<thead>
+								<tr>
+									<td><h4 class="text-success">Procedure</h4></td>
+									<td>
+										<p class="ng-binding">{{ pav.pages.locappreq.model.search.validatedParameters.data.IMGSERVICE[0].servDesc }}</p>
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><h4 class="text-success">CPT Code:</h4></td>
+									<td>
+										<p  class="ng-binding">{{ pav.pages.locappreq.model.search.validatedParameters.data.IMGSERVICE[0].procedureCode }}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Need By:</h4></td>
+									<td>
+										<p  class="ng-binding">{{ pav.pages.locappreq.model.details.info.reqDateDisplay}} </p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Facility Name:</h4></td>
+									<td>
+										<p ng-if="!pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.content.locBusName }}</p>
+										<p ng-if="pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.info.selectedLocation.locBusName}}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Facility Address:</h4></td>
+									<td>
+										<p  class="ng-binding" >{{pav.pages.locappreq.model.details.info.selectedLocationAddr}}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Facility Phone:</h4></td>
+									<td>
+										<p ng-if="!pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.content.phoneNumber }}</p>
+										<p ng-if="pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.info.selectedLocation.phoneNumber }}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Facility Fax:</h4></td>
+									<td>
+										<p ng-if="!pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.content.faxNumber }}</p>
+										<p ng-if="pav.pages.locappreq.model.location.isOrg" class="ng-binding">{{ pav.pages.locappreq.model.details.info.selectedLocation.faxNumber }}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Patient Name:</h4></td>
+									<td>
+										<p class="ng-binding">{{ pav.pages.locappreq.model.details.info.reqForFirstName }} &nbsp {{pav.pages.locappreq.model.details.info.reqForLastName}}</p>
+									</td>
+								</tr>
+								<tr>
+									<td><h4 class="text-success">Request Confirmation:</h4></td>
+									<td>
+										<p class="ng-binding">{{pav.pages.locappreq.model.details.apptreqresult.requestCode}}</p>
+									</td>
+								</tr>
+								<tr ng-if=" pav.pages.locappreq.model.details.info.reqEmailAddr">
+								    <td>
+										<h4 class="text-success">An email has been sent to patient at </h4>
+									</td>
+									<td>
+										<p>{{pav.pages.locappreq.model.details.info.reqEmailAddr}}</p>
+									</td>
+								</tr>
+								<tr ng-if= "pav.pages.locappreq.model.details.info.reqPhoneExtn">
+									<td>
+										<h4 class="text-success">Facility will call patient at</h4>
+									</td>
+									<td>
+										<p>{{pav.pages.locappreq.model.details.info.reqPhoneNumber}} Extn: {{pav.pages.locappreq.model.details.info.reqPhoneExtn}}</p>
+									</td>
+								</tr>
+								<tr ng-if= "!pav.pages.locappreq.model.details.info.reqPhoneExtn">
+									<td>
+										<h4 class="text-success">Facility will call patient at</h4>
+									</td>
+									<td>
+										<p>{{pav.pages.locappreq.model.details.info.reqPhoneNumber}}</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p style="line-height:165%;margin-left:5px;font-size:10pt"> <span class="label label-info">Doctor's Office</span> -  Please fax the script, demographic page and other necessary information directly to the imaging center.</p>
+						<p style="line-height:165%;margin-left:5px;font-size:10pt"> <span class="label label-info">Patient</span> -  Please fax or bring the original note from the referring doctor  to the imaging center.</p>
+						<br/>
+						<div class="row text-right">
+							<button type="button" class="btn btn-primary"  ng-click="pav.pages.locappreq.model.details.closePopup();">Request Additional</button>
+							<button type="button" class="btn btn-primary"  onclick="printConf()">Print</button>
+							<button ng-if="!pav.pages.locappreq.model.location.isOrg" type="submit" class="btn btn-primary">Back to {{ pav.pages.locappreq.model.details.content.locBusName }} </button>
+							<button ng-if="pav.pages.locappreq.model.location.isOrg" type="submit" class="btn btn-primary">Back to {{ pav.pages.locappreq.model.details.content.orgBusName }}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+	<!--END Modals-->
+
+	<header class="navbar navbar-default ng-cloak">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<a href="http://{{pav.pages.locappreq.model.details.content.referralURL}}" class="logo">
+						<img alt="" ng-src="{{pav.pages.locappreq.model.details.content.logoURL}}"/>
+					</a>
+				</div>
+				<div class="ng-cloak col-xs-12 col-sm-6 prov_address">
+					<h3 ng-if="!pav.pages.locappreq.model.location.isOrg">{{ pav.pages.locappreq.model.details.content.locBusName }}</h3>
+					<h3 ng-if="pav.pages.locappreq.model.location.isOrg"><br>{{ pav.pages.locappreq.model.details.content.orgBusName }}</h3>
+					<p ng-if="!pav.pages.locappreq.model.location.isOrg">
+						<span ng-if="pav.pages.locappreq.model.details.content.addrLine1 && !pav.pages.locappreq.model.details.content.addrLine2">{{ pav.pages.locappreq.model.details.content.addrLine1 }},{{
+						pav.pages.locappreq.model.details.content.city }}, {{ pav.pages.locappreq.model.details.content.state }}</span>
+						<span ng-if=" pav.pages.locappreq.model.details.content.addrLine1 && pav.pages.locappreq.model.details.content.addrLine2">{{ pav.pages.locappreq.model.details.content.addrLine1 }},
+						{{ pav.pages.locappreq.model.details.content.addrLine2 }}, {{pav.pages.locappreq.model.details.content.city }}, {{ pav.pages.locappreq.model.details.content.state }}</span>
+					</p>
+					<p ng-if="!pav.pages.locappreq.model.location.isOrg">
+					Ph: {{ pav.pages.locappreq.model.details.content.phoneNumber }}
+					</p>
+				</div>
+			</div>
+		</div>
+	</header>
+    <!--header-->
+
+	<!--Services area-->
+	<section class="services_area" id="iconbar">
+		<div class="container">
+			<div class="serv_list_wrap clearfix">
+				<div class="servCar">
+					<ul class="clearfix">
+							<li class="thumbnail or-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.mriEnabled" ng-click=" services.medService('MRI'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see MRI services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_MRI.png" alt="" />
+								</div>
+							</div>
+							<span>MRI</span>
+						</li>
+						<li class="thumbnail bl-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.ctScanEnabled" ng-click=" services.medService('CT'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see CT services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_MRI.png" alt="" />
+								</div>
+							</div>
+							<span>CT SCAN</span>
+						</li>
+						<li class="thumbnail or-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.xrayEnabled" ng-click=" services.medService('XRAY'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see XRAY services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_xray.png" alt="" />
+								</div>
+							</div>
+						   	<span>X-RAY</span>
+						</li>
+						<li class="thumbnail bl-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.mammogramEnabled" ng-click=" services.medService('MAMMOGRAM'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see MAMMOGRAM services! ">
+							<div class="icon_border">
+								<div class="serv_icon ng-cloak">
+									<img src="res/images/icon_mammogram.png" alt="" />
+								</div>
+							</div>
+							<span>MAMMOGRAM</span>
+						</li>
+						<li class="thumbnail or-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.ultraSoundEnabled"  ng-click=" services.medService('ULTRASOUND'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see ULTRASOUND services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_baby.png" alt="" />
+								</div>
+							</div>
+							<span>ULTRASOUND</span>
+						</li>
+						<li class="thumbnail gr-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.petctEnabled" ng-click=" services.medService('PET/CT'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see PET/CT services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_MRI.png" alt="" />
+								</div>
+							</div>
+							<span>PET/CT</span>
+						</li>
+						<li class="thumbnail or-hover ng-cloak" ng-if ="pav.pages.locappreq.model.details.content.enabledAppts.nuclearEnabled" ng-click=" services.medService('NUCLEAR MED'); " pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' " title=" Select here to see NUCLEAR MED services! ">
+							<div class="icon_border">
+								<div class="serv_icon">
+									<img src="res/images/icon_cathLab.png" alt="" />
+								</div>
+							</div>
+							<span>NUCLEAR </span>
+						</li>
+					</ul>
+				</div>
+				<a class="control" id="leftControl"></a>
+				<a class="control" id="rightControl"></a>
+			</div>
+
+			<div class="search-serv ng-cloak">
+				<div class="form-group">
+					<h5>1: Select Procedure</h5>
+					<div class="ng-cloak medService" ng-if=" pav.pages.locappreq.model.search.isMedServiceShow(); " ng-animate=" 'fade' ">
+						<div
+							ng-show="pav.pages.locappreq.model.search.medServiceGroupShowNotification() || pav.pages.locappreq.model.search.medServiceShowNotification()">
+							<div class="notification_text"
+								ng-show="pav.pages.locappreq.model.search.medServiceGroupShowNotification() && !pav.pages.locappreq.model.search.medServiceShowNotification()">
+								<span class="glyphicon glyphicon-chevron-down"></span> <span> Please select a service group </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> for </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> '{{ pav.pages.locappreq.model.search.medServiceSearch }}'</span>
+							</div>
+							<div class="notification_text"
+								ng-show="pav.pages.locappreq.model.search.medServiceGroupShowNotification() && pav.pages.locappreq.model.search.medServiceShowNotification()">
+								<span class="glyphicon glyphicon-chevron-down"></span> <span> Please select a group or a service </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> for </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> '{{ pav.pages.locappreq.model.search.medServiceSearch }}' </span>
+							</div>
+							<div class="notification_text third_level"
+								ng-show="!pav.pages.locappreq.model.search.medServiceGroupShowNotification() && pav.pages.locappreq.model.search.medServiceShowNotification()">
+								<span class="glyphicon glyphicon-chevron-down"></span> <span>Please select a service </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> for </span> <span
+									ng-show="pav.pages.locappreq.model.search.medServiceSearch"> '{{ pav.pages.locappreq.model.search.medServiceSearch }}' </span>
+							</div>
+						</div>
+						<div id="signuparea_typeahead_medservice_result" pav-scrollpane pav-scrollpane-scroll-start=" $parent.$parent.suppressBlur = true; " pav-scrollpane-scroll-stop=" $parent.$parent.suppressBlur = false; "
+                             pav-refocus=" true " pav-refocus-id=" 'signuparea_typeahead_medservice_input' "
+                             class="search_results">
+							<table  pav-scrollpane-content>
+								<tr
+									ng-repeat=" result in pav.pages.locappreq.model.search.medServiceResults | limitTo: pav.pages.index.config.medServicesTypeaheadCount "
+									ng-animate=" 'roll' " style="transition-delay: {{" class="suggestion"
+									ng-mouseover=" pav.pages.locappreq.model.search.medResultHoverProc($index); "
+									ng-mousedown=" pav.pages.locappreq.model.search.medServiceSelect(result);"
+									pav-keypress=" pav.pages.locappreq.model.search.medServiceSelect(result);"
+									pav-refocus=" !pav.pages.locappreq.model.search.medServiceValidateResults(result); "
+									pav-refocus-id=" 'signuparea_typeahead_medservice_input' ">
+									<td ng-class="{ active: $index==pav.pages.locappreq.model.search.activeIndex}">
+									<span ng-if=" !result.procedureCode "><b> &rarr; </b></span> {{ result.serSuggText }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!--END Search results-->
+					<input id="signuparea_typeahead_medservice_input" type="text" class="form-control"
+						placeholder="Enter Procedure Name or CPT Code" ng-model=" model.search.medServiceSearch "
+						ng-change=" pav.pages.locappreq.model.search.medServiceShow = true; services.medService(); "
+						pav-focus=" pav.pages.locappreq.model.search.medServiceShow = true; "
+						pav-keypress=" pav.pages.locappreq.model.search.medResultHoverActivated = false; "
+						pav-search-result-id=" 'signuparea_typeahead_medservice_result' "
+						pav-blur=" pav.pages.locappreq.model.search.medServiceShow = false; pav.pages.locappreq.model.search.activeIndex = null;pav.pages.locappreq.model.search.validateImgServiceTerms(pav.pages.locappreq.model.details.getValidLocations,pav.pages.locappreq.model.search.dummy,true);"
+						pav-blur-condition=" !suppressBlur "
+                        pav-tooltip=" model.search.medServiceSearchTooltip " />
+				</div>
+			</div>
+
+			<div ng-show=" pav.pages.locappreq.model.details.content" class="ng-cloak" id="tabs">
+				<ul class="hide">
+					<li><a ng-mousedown=" pav.pages.locappreq.model.tabs.select('results_tab', 'tabs'); " href="#results_tab">Info</a></li>
+					<li><a ng-mousedown=" pav.pages.locappreq.model.tabs.select('map_tab', 'tabs'); " href="#map_tab">Map</a></li>
+				</ul>
+
+				<!-- Results tab -->
+				<section class="search_detail panel panel-default" id="results_tab">
+					<div class="panel-body ng-cloak">
+						<div class="form-horizontal">
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h4 class="col-sm-3 col-md-6"><span>2: Enter Details</span></h4>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Need study performed by</span></h5>
+										<div class="col-sm-9 col-md-8">
+											<div class="calendar">
+												<!-- <input  pav-focus="pav.pages.locappreq.model.search.validateImgServiceTerms(pav.pages.locappreq.model.details.getValidLocations, pav.pages.locappreq.model.search.showErrors); " -->
+												<input  placeholder='mm/dd/yyyy' name="reqDate" class="form-control" type="text" 	pav-tooltip="pav.pages.locappreq.model.details.info.reqDateTooltip"  id="reqDate"/>
+												<label for="reqDate" class="glyphicon glyphicon-calendar"></label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Requesting for</span></h5>
+										<div class="col-sm-9 col-md-8 ins_long">
+											<select id="locationDropDown" class="form-control" ng-model=" pav.pages.locappreq.model.details.info.reqFor"
+												ng-options=" holder.name for holder in pav.pages.locappreq.config.reservationHolders ">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Patient First Name</span></h5>
+										<div class="col-sm-9 col-md-8">
+											<input class="form-control" type="text" ng-model=" pav.pages.locappreq.model.details.info.reqForFirstName "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqForFirstNameTooltip " />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Patient Last Name</span></h5>
+										<div class="col-sm-9 col-md-8">
+											<input class="form-control" type="text" ng-model=" pav.pages.locappreq.model.details.info.reqForLastName "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqForLastNameTooltip " />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group input-grouped">
+										<h5 class="col-xs-12 col-sm-3 col-md-4"><span>Patient Date of Birth</span></h5>
+										<div class="col-xs-4 col-sm-2">
+											<input class="form-control" type="text" placeholder="MM" maxlength="2" ng-model=" pav.pages.locappreq.model.details.info.reqDOBMonth "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqDOBMonthTooltip " />
+										</div>
+										<div class="col-xs-4 col-sm-2">
+											<input class="form-control" type="text" placeholder="DD" maxlength="2" ng-model=" pav.pages.locappreq.model.details.info.reqDOBDay "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqDOBDayTooltip " />
+										</div>
+										<div class="col-xs-4 col-sm-4">
+											<input class="form-control" type="text" placeholder="YYYY" maxlength="4" ng-model=" pav.pages.locappreq.model.details.info.reqDOBYear "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqDOBYearTooltip " />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Patient Phone</span></h5>
+										<div class="col-sm-5 col-md-4">
+											<input class="form-control" type="text" placeholder="xxx-xxx-xxxx" maxlength="12" ng-model=" pav.pages.locappreq.model.details.info.reqPhoneNumber "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqPhoneNumberTooltip " />
+										</div>
+										<div class="col-sm-1 col-md-1">
+											<h5><span>Extn</span></h5>
+										</div>
+										<div class="col-sm-3 col-md-3">
+											<input maxlength="8" class="form-control" type="text" ng-model=" pav.pages.locappreq.model.details.info.reqPhoneExtn "	/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Patient Email <i>(optional)</i></span></h5>
+										<div class="col-sm-9 col-md-8">
+											<input class="form-control" type="text" ng-model=" pav.pages.locappreq.model.details.info.reqEmailAddr "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.reqEmailAddrTooltip " />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Requested By</span></h5>
+										<div class="col-sm-9 col-md-8 ins_long">
+												<select class="form-control" ng-model=" pav.pages.locappreq.model.details.info.requester "
+												ng-options=" holder.name for holder in pav.pages.locappreq.config.requesters " >
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Referring Doctor/Office</span></h5>
+										<div class="col-sm-9 col-md-8">
+											<input class="form-control" maxlength="99" type="text" ng-model=" pav.pages.locappreq.model.details.info.referDoc "
+												pav-tooltip=" pav.pages.locappreq.model.details.info.referDocTooltip " />
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<h5 class="col-sm-3 col-md-4"><span>Message <i>(256 chars)</i> </span></h5>
+										<div class="col-sm-9 col-md-8">
+											<textarea maxlength="256" class="form-control" rows="2" ng-model=" pav.pages.locappreq.model.details.info.msgToLoc " pav-tooltip=" pav.pages.locappreq.model.details.info.msgToLocTooltip "></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div ng-if="pav.pages.locappreq.model.location.isOrg" class="col-xs-12 col-md-6">
+									<div class="form-group">
+										<div class="col-sm-3 col-md-4"><h4>3: Select Location</h4><h5><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{pav.pages.locappreq.model.details.info.locationCountStr}}</i></h5></div>
+										<div class="col-sm-9 col-md-8 ins_long">
+												<select placeholder="Please select a location"
+														pav-focus="pav.pages.locappreq.model.details.checkError();"
+														ng-mouseover="pav.pages.locappreq.model.details.checkError();"
+														ng-mousedown="pav.pages.locappreq.model.details.checkError();"
+											 			class="form-control" ng-model=" pav.pages.locappreq.model.details.info.selectedLocation" pav-tooltip = "pav.pages.locappreq.model.details.info.selectedLocationTooltip "
+                                                    ng-options=" pav.pages.locappreq.model.details.getLocDisStr(location) for location in pav.pages.locappreq.model.details.validLocations"
+                                                    pav-update-selectbox>
+                                                       <option></option>
+                                            	</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 pull-right text-right">
+								<button id="request-button" type="submit" class="btn btn-lg btn-primary"  data-toggle="modal"
+								  validated=" {{ pav.pages.locappreq.model.details.validate(); }} "
+								  ng-click=" pav.pages.locappreq.model.search.validateImgServiceTerms(pav.pages.locappreq.model.details.reqLocAppointment, pav.pages.locappreq.model.search.showErrors,false); "
+								  title=" Request Appointment ">Request Appointment</button>
+							</div>
+							<div class="col-xs-12 col-sm-6 ">
+								<a href="{{pav.pages.locappreq.model.details.backURL}}" class="or-hover-link btn btn-lg">
+									<span class="glyphicon glyphicon-arrow-left"></span>  Back to Previous Page
+								</a>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			 	<!-- Map tab -->
+					<div id="map-canvas"></div>
+				</section>
+				<!--Map tab -->
+			</div>
+
+		</div>
+	</section>
+<!--END Services area-->
+
+
+	<!-- Functionality scripts -->
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	<script type="text/javascript" src="res/js/libs/angular.115.js"></script>
+	<script type="text/javascript" src="res/js/wlinit.js"></script>
+	<script type="text/javascript" src="res/js/wlconfig.js"></script>
+	<script type="text/javascript" src="res/js/locappreq.js"></script>
+
+</body>
+</html>

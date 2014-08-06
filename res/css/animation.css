@@ -1,0 +1,1383 @@
+/* =====================================================================================================================
+
+    Afford A Scan: Client-side functionality related styling
+ ==================================================================================================================== */
+
+
+/* General declarations
+ ==================================================================================================================== */
+h1, h2, h3, h4 { display: block; }
+
+.ng-cloak {
+    display: none;
+}
+.float-left { float: left; }
+.float-right { float: right; }
+.float-none { float: none; }
+.clear-both { clear: both; }
+.clear-left { clear: left; }
+.clear-right { clear: right; }
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+.text-center, center { text-align: center !important; }
+
+@media print {
+    #header,
+    #topbar,
+    .filterarea .filter-row,
+    #footer {
+        display: none;
+    }
+    .bookingbox {
+        float: left;
+    }
+}
+
+.ui-tabs .ui-tabs-nav {
+    padding: .2em .2em 0 0;
+}
+.ui-tabs .ui-tabs-panel {
+    border-left: 1px solid #aaaaaa;
+}
+
+.tabs_border {
+    border-left: 1px solid #aaaaaa !important;
+}
+.tabs_noborder {
+    border-left: 0px solid #aaaaaa !important;
+}
+.jqueryUI_byTab {
+    margin-top: 40px;
+}
+
+.sbToggle {
+    background-position: right bottom;
+}
+.filterarea .sortfeild .sbSelector {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.appointment .ui-datepicker table thead {
+    display: table-header-group;
+}
+
+#content {
+    overflow: visible;
+}
+.sbOptions {
+    z-index: 100;
+}
+
+textarea[disabled="disabled"],
+input[disabled="disabled"] {
+    background-color: #f8f8f8;
+}
+
+.default-font {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+.button-center_below_input {
+    margin-left: 118px;
+}
+
+.red {
+    color: red;
+}
+.green {
+    color: green;
+}
+
+.hover-shading {
+    cursor: pointer;
+}
+.hover-shading:hover {
+    background-color: #fafafa;
+}
+
+input[type='radio'].invalidated,
+input[type='checkbox'].invalidated {
+    background-color: #ffaaaa !important;
+}
+input[type='text'].invalidated,
+input[type='password'].invalidated {
+    background: url(../images/inputbg.jpg) repeat-x bottom left !important;
+}
+textarea.invalidated {
+    background-color: #ffcccc !important;
+}
+.appointment {
+    margin: 0px 0 20px 0;
+}
+.appointment .ui-datepicker .ui-datepicker-title {
+    padding: 0px;
+}
+.appointment .ui-datepicker-calendar td.ui-datepicker-other-month span {
+    color: white;
+    background: white;
+    border-bottom: 1px solid #d4d4d4;
+    border-right: 1px solid #d4d4d4;
+}
+.appointment .ui-state-disabled span {
+    text-indent: 0px !important;
+    font-size: 20px;
+}
+.appointment .ui-state-disabled span,
+.appointment .ui-state-default,
+.pav-ui-datepicker_hasNoAppt a {
+    color: #efefef;
+}
+.pav-ui-datepicker_hasAppt a {
+    color: #319ac2 !important;
+}
+.pav-ui-datepicker_hasApptHighlight a {
+    background-image: url(../images/calendar_corners.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: right top;
+    color: #319ac2 !important;
+    /* color: green !important; */
+    font-weight: bold;
+    /* text-decoration: underline !important; */
+}
+.pav-ui-datepicker_hasAppt a:hover,
+.pav-ui-datepicker_hasApptHighlight a:hover {
+    text-decoration: underline;
+}
+.pav-ui-datepicker-apptDate {
+    position: relative;
+    float: right;
+    bottom: 1px;
+    right: 2px;
+    height: auto !important;
+    margin: -6px !important;
+
+    color: green;
+    font-weight: bold;
+    line-height: 0px !important;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+
+/* DOM animations
+ ==================================================================================================================== */
+
+.roll-enter, .roll-leave {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+
+.roll-leave.roll-leave-active, .roll-enter {
+    -webkit-transform: scaleY(0);
+    -moz-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    -o-transform: scaleY(0);
+    transform: scaleY(0);
+    opacity: 0;
+}
+
+.roll-enter.roll-enter-active, .roll-leave {
+    -webkit-transform: scaleY(1);
+    -moz-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.fade-enter, .fade-leave {
+    -webkit-transition: 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -moz-transition: 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -ms-transition: 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    -o-transition: 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+    transition: 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+.fade-enter {
+    opacity: 0;
+}
+.fade-enter.fade-enter-active {
+    opacity: 1;
+}
+.fade-leave {
+    opacity: 1;
+}
+.fade-leave.fade-leave-active {
+    opacity: 0;
+}
+
+
+/* Login area
+ ==================================================================================================================== */
+div.span {
+    float: left;
+}
+
+a.manage_account {
+    float: right;
+    margin: 4px 4px 0px 0px;
+}
+
+
+/* Signup area
+ ==================================================================================================================== */
+
+@media all and (max-height: 750px) {
+    #mainbanner {
+        background-image: none !important;
+        height: 218px !important;
+    }
+    #mainbanner .mainbanner-wrapper {
+        height: 223px;
+    }
+    .banner h1 {
+        width: 100% !important;
+        font-size: 28px !important;
+    }
+    .banner ul {
+        display: none;
+    }
+}
+
+.banner h1 {
+    width: 300px;
+    font-size: 28px !important;
+}
+
+.banner ul {
+    width: 332px;
+    padding-left: 10px;
+}
+.banner li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: white;
+    list-style-type: none;
+}
+
+.span5, .searchbar h1 {
+    width: 220px;
+}
+.searchbar ul {
+    margin: 6px 0px 0px 0px;
+}
+#header .loginbox .welocome {
+    margin: 2px 20px 0px 0px;
+}
+
+#mainbanner .banner #signupbox {
+    bottom: 63px;
+}
+#mainbanner .banner #signupbox .input {
+    font-size: 16px;
+}
+
+#mainbanner .banner #signupbox .submit,
+.signuparea .submit {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #fe8f00;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe8f00', endColorstr='#ed8804',GradientType=0 );
+    color: white;
+}
+#mainbanner .banner #signupbox .submit[validated=true],
+.signuparea .submit[validated=true] {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #8ffe00;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8ffe00', endColorstr='#88ed04',GradientType=0 );
+    color: #444444;
+}
+#mainbanner .banner #signupbox .submit,
+.signuparea .submit,
+#mainbanner .banner #signupbox .submit[validated=true],
+.signuparea .submit[validated=true] {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.2)), color-stop(100%, rgba(0, 0, 0, 0.2)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+#mainbanner .banner #signupbox .submit:hover,
+.signuparea .submit:hover,
+#mainbanner .banner #signupbox .submit[validated=true]:hover,
+.signuparea .submit[validated=true]:hover {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+@media (min-width: 1200px) {
+    #mainbanner .banner #signupbox {
+        bottom: 63px;
+        margin: 0px -80px 0px -80px;
+    }
+    #mainbanner .banner #signupbox {
+        width: 1100px;
+    }
+    #mainbanner .banner #signupbox .item1 {
+        width: 492px;
+    }
+    .signuparea .medService {
+        width: 502px !important;
+		width: 568px !important;
+		left: 1px;
+		border-top: none !important;
+    }
+    .signuparea_bar .medService {
+        width: 370px !important;
+    }
+    .signuparea .cityZipCode {
+        left: 564px !important;
+		left: 635px !important;
+        width: 218px;
+		border-top: none !important;
+    }
+    .signuparea_bar .cityZipCode {
+        left: auto !important;
+        right: 81px !important;
+        width: 232px;
+    }
+}
+
+.signuparea_bar {
+    position: relative;
+    argin-top: 8px;
+}
+
+.signuparea_bar .wide {
+    text-align: right !important;
+    width: 320px;
+}
+
+.signuparea_bar a {
+    color: #fd940a;
+}
+.signuparea_bar input[type='text'] {
+    margin: 1px;
+    border-width: 0px;
+
+    text-align: left;
+    font-family: Arial;
+    color: #3199c0;
+}
+.signuparea input[type='text'] {
+    text-align: left;
+}
+
+.signuparea_bar input[box='true'] {
+    margin: 0px;
+    border-width: 1px;
+
+    text-align: left !important;
+    font-family: Arial;
+    color: #7f7f7f;
+}
+
+.signuparea_bar .submit {
+    width: 120px;
+    height: 27px;
+    padding: 0px 8px;
+
+    border: 1px solid #000000;
+    border-radius: 3px;
+}
+
+@media (max-width: 979px) {
+    .signuparea_bar .item1 {
+        width: 100px;
+    }
+    .signuparea_bar .item2 {
+        width: 100px;
+    }
+    .signuparea_bar .submit {
+        width: 100px;
+    }
+}
+
+.signuparea .typeahead_error {
+    position: absolute;
+    top: -30px;
+    z-index: 1000;
+    padding: 5px 5px 5px 5px;
+
+    border-radius: 5px;
+    border: 1px solid white;
+    background: #ff9000;
+
+    text-align: left;
+    color: white;
+}
+.signuparea_bar .typeahead_error {
+    top: -58px;
+}
+
+.signuparea .typeahead {
+    position: absolute;
+    top: 76px;
+    z-index: 1000;
+    padding: 5px 5px 5px 5px;
+
+    border: 1px solid #eeeeee;
+    background: #ffffff;
+}
+.signuparea_bar .typeahead {
+    top: 30px;
+}
+.signuparea .medService {
+    width: 342px;
+}
+.signuparea_bar .medService {
+    left: auto;
+    right: 338px;
+    width: 370px; /* 162px to fit */
+}
+.signuparea .medService .notification,
+.signuparea_bar .medService .notification {
+    margin: 0px 0px 8px 0px;
+    padding: 10px;
+
+    border: 2px solid #3199c0;
+    border-radius: 4px;
+
+    color: #3199c0;
+}
+.signuparea .medService .notification .notification_icon,
+.signuparea_bar .medService .notification .notification_icon {
+    float: left;
+    width: 10%;
+    height: 20px;
+    background: url(../images/notification_icon.png) top left no-repeat;
+}
+.signuparea .medService .notification .notification_text,
+.signuparea_bar .medService .notification .notification_text {
+    float: left;
+    width: 90%;
+    padding-top: 2px;
+    font-weight: bold;
+}
+.signuparea .medService .notification span,
+.signuparea_bar .medService .notification span {
+    margin: 0px 4px 0px 0px;
+}
+.signuparea .cityZipCode {
+    left: 404px;
+    width: 218px;
+}
+.signuparea_bar .cityZipCode {
+    left: auto;
+    right: 81px;
+    width: 232px; /* 162px to fit */
+}
+.signuparea .typeahead TABLE TD {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.signuparea .typeahead .suggestion {
+    width: 100%;
+    color: #3199c0;
+    cursor: pointer;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif
+}
+.signuparea .typeahead .suggestion:hover {
+    color: #fe8f00;
+}
+
+.signuparea_small {
+    display: none;
+}
+@media (max-width: 520px) {
+    .signuparea_bar {
+        display: none;
+    }
+    .signuparea_small {
+        display: block;
+    }
+}
+
+
+/* Most popular area
+ ==================================================================================================================== */
+
+/*
+.popularslide {
+    margin-left: 108px;
+}
+*/
+
+#results_tab .jcarousel-prev,
+#popular .jcarousel-prev {
+    cursor: pointer;
+    width: 41px;
+    height: 64px;
+    position: absolute;
+    top: 48px;
+    background: url(../images/prev.jpg) no-repeat 0 0;
+    left: -57px;
+}
+#results_tab .jcarousel-next,
+#popular .jcarousel-next {
+    cursor: pointer;
+    width: 41px;
+    height: 64px;
+    position: absolute;
+    top: 48px;
+    background: url(../images/next.jpg) no-repeat 0 0;
+    right: 35px;
+}
+
+#popular .popularslide ul li .view {
+    background-image: url('') !important;
+    text-align: center !important;
+}
+
+.slider li {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+
+    cursor: pointer;
+    opacity: 0.8;
+}
+.slider li:hover {
+    opacity: 1;
+}
+
+#results_tab .jcarousel-prev,
+#results_tab .jcarousel-next,
+#popular .jcarousel-prev,
+#popular .jcarousel-next {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) opacity;
+
+    opacity: 0.8;
+}
+#results_tab .jcarousel-prev:hover,
+#results_tab .jcarousel-next:hover,
+#popular .jcarousel-prev:hover,
+#popular .jcarousel-next:hover {
+    opacity: 1;
+}
+
+
+/* Search results Tab control
+ ==================================================================================================================== */
+
+.results-tab .ui-tabs-nav li.transparent {
+    background: none;
+    border: none;
+}
+.results-tab .ui-tabs-nav li.transparent .list_view,
+.results-tab .ui-tabs-nav li.transparent .map_view {
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 24px;
+    font-weight: normal;
+    color: #319ac2;
+    cursor: pointer;
+}
+
+.results-tab .ui-tabs-nav li {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background: #fe8f00 url(../images/tab_bg.png) bottom left repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe8f00', endColorstr='#ed8804',GradientType=0 );
+}
+.results-tab .ui-tabs-nav li.ui-tabs-active {
+    background: #ededed;
+}
+.results-tab .ui-tabs-nav li {
+    font-size: 20px;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0px;
+}
+.ui-widget-content, .ui-widget-header {
+    background: none;
+    border: 0px;
+}
+#searchresult {
+    padding: 0px;
+    margin: 0 0 20px 0;
+}
+#map {
+    padding: 0px;
+    margin: 0 0 20px 0;
+    min-height: 150px;
+    background: white;
+    box-shadow: 2px 2px 2px #999999;
+}
+
+.resultheading .resultoutter {
+    margin-top: -14px;
+    margin-right: 20px;
+    width: 320px;
+    font-family: 'gotham-book',serif;
+}
+.resultheading .resultoutter table {
+    float: right;
+}
+.resultheading .resultoutter span.average {
+    float: left;
+    margin-left: 20px;
+}
+.resultheading .resultoutter span.wide {
+    width: 218px;
+}
+.resultheading .resultoutter span.ins_range {
+    margin: 0px 14px 0px 0px;
+}
+.resultheading .resultoutter span {
+    width: 150px;
+}
+.resultcenter {
+    float: left;
+    margin-top: -38px;
+    margin-right: 100px;
+    margin-left: 50px;
+}
+
+
+/* Search results Pagination
+ ==================================================================================================================== */
+
+.paging {
+    font-family: 'gotham-book',serif;
+    font-size: 13px;
+}
+.paging .disabled {
+    color: #999999;
+    cursor: default;
+}
+.paging .disabled:hover {
+    text-decoration: none;
+}
+
+
+/* Search results Pagination
+ ==================================================================================================================== */
+.filter-row {
+    width: auto;
+}
+.resultheading {
+    height: 18px;
+    padding-bottom: 10px;
+    margin-top: -28px;
+}
+.viewmap {
+    color: #319ac2 !important;
+    font-size: 13px;
+    padding: 0px 13px 4px 18px;
+    background-position: left 5px, right 14px;
+}
+.resuldetail .viewmap {
+    margin-left: 40px;
+}
+
+
+
+/* Search results: Results
+ ==================================================================================================================== */
+
+#searchresult .resultarea figure {
+    overflow: hidden;
+}
+
+#searchresult .colbox3 .pbox p,
+.mapbox .mapcontent article .pbox p {
+    font-size: 13px;
+    font-weight: normal;
+    line-height: normal;
+}
+
+#searchresult .colbox3 div.cash_price_text {
+    float: right;
+    margin-top: 26px;
+    text-align: right;
+}
+#searchresult .colbox3 div.ins_price_text {
+    float: right;
+}
+img.ins_price_image {
+    width: 80px;
+    height: 60px;
+    margin-top: 4px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+p.ins_price_text {
+    width: 100%;
+    text-align: right;
+}
+.ins_map_view {
+    overflow: hidden;
+    margin-top: -35px;
+}
+
+h1.pbox_large {
+    float: right;
+    text-align: right;
+    color: green;
+}
+#searchresult .resultarea h1.pbox_large {
+    font-size: 50px;
+}
+.mapbox .mapcontent article h1.pbox_large {
+    font-size: 32px;
+}
+
+#searchresult .colbox3 .buttonarea {
+    padding: 26px 0px 0px 7px;
+    text-align: right;
+}
+
+/* Search results: Map
+ ==================================================================================================================== */
+
+.map_results {
+    float: left;
+    width: 340px;
+    margin: 20px 5px 20px 0px;
+    padding: 10px;
+}
+@media (max-width: 979px) {
+    .map_results {
+        float: left;
+        width: 90%;
+    }
+}
+
+.span2, #searchresult .colbox2 {
+    width: 240px;
+}
+.span2, #searchresult .colbox3 {
+    width: 190px;
+}
+
+#searchresult .resultarea a,
+.resuldetail a,
+#reservation_tab a {
+    color: green;
+}
+#searchresult .resultarea a .distance,
+.resuldetail a .distance,
+#reservation_tab a .distance {
+    margin-left: 6px;
+    color: #000000;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 11px;
+}
+
+#searchresult .highlights {
+    position: absolute;
+    top: 24px;
+}
+#searchresult .highlight {
+    margin-top: 6px;
+}
+#searchresult .highlight a,
+#searchresult .highlight div {
+    color: green;
+}
+#searchresult .highlight .hoverText {
+    display: none;
+    z-index: 1000;
+    position: relative;
+    width: 600px;
+    height: 18px;
+    margin-bottom: -18px;
+    background: #ffffff;
+}
+#searchresult .highlight:hover .hoverText {
+    display: block;
+}
+
+.map_results .pin {
+    margin: 10px 0px 0px 5px;
+    background-position: 50% 50% !important;
+}
+.results-tab .list_view .list_view_icon {
+    width: 33px;
+    height: 32px;
+    background: url(../images/list_view_icon.png) top left no-repeat;
+}
+.results-tab .list_view:hover .list_view_icon {
+    width: 33px;
+    height: 32px;
+    background-position: bottom left;
+}
+.results-tab .list_view .list_view_link {
+    margin-left: 12px;
+    color: #319ac2;
+}
+.results-tab .list_view:hover .list_view_link {
+    color: #fe8f00;
+}
+.results-tab .map_view .map_view_icon {
+    width: 33px;
+    height: 32px;
+    background: url(../images/map_view_icon.png) top left no-repeat;
+}
+.results-tab .map_view:hover .map_view_icon {
+    width: 33px;
+    height: 32px;
+    background-position: bottom left;
+}
+.results-tab .map_view .map_view_link {
+    margin-left: 12px;
+    color: #319ac2;
+}
+.results-tab .map_view:hover .map_view_link {
+    color: #fe8f00;
+}
+.mapbox .mapcontent {
+    margin-top: 20px;
+}
+.mapbox .mapcontent article {
+    padding: 10px 5px 10px 40px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+.mapbox .mapcontent article:hover {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #fafafa;
+    border-top: 1px dotted #eeeeee;
+    border-bottom: 1px dotted #eeeeee;
+}
+.mapbox .mapcontent article .button {
+    float: left;
+    clear: both;
+
+    width: 140px;
+    padding: 4px 4px 4px 4px;
+    margin: -34px 0px 0px -30px;
+    color: #ffffff;
+    text-align: center;
+}
+.google_maps_info {
+    display: none;
+}
+.google_maps_tooltip .button {
+    float: left;
+    clear: both;
+    width: auto;
+    padding: 4px 4px 4px 4px;
+    margin: -26px 0px 0px 0px;
+    color: #ffffff;
+    text-align: center;
+
+    border: 1px solid black;
+    text-shadow: 1px 1px 1px black;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: normal;
+    box-shadow: 0px 2px 3px #999999;
+    background: #3199c0;
+    background: -moz-linear-gradient(top, #3199c0 0%, #2c8baf 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3199c0), color-stop(100%, #2c8baf));
+    background: -webkit-linear-gradient(top, #3199c0 0%, #2c8baf 100%);
+    background: -o-linear-gradient(top, #3199c0 0%, #2c8baf 100%);
+    background: -ms-linear-gradient(top, #3199c0 0%, #2c8baf 100%);
+    background: linear-gradient(to bottom, #3199c0 0%, #2c8baf 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3199c0', endColorstr='#2c8baf',GradientType=0 );
+}
+
+.map_googlemap {
+    float: right;
+    width: 100%;
+    max-width: 560px;
+    height: 710px;
+    margin: 5px;
+}
+.map_googlemap_small {
+    max-width: 560px;
+}
+.map_googlemap_full {
+    max-width: 942px;
+}
+@media (max-width: 979px) {
+    .map_googlemap {
+        float: left;
+        width: 90%;
+        max-width: none;
+    }
+}
+.map_googlemap #map-canvas {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.map_googlemap #map-canvas img {
+    max-width: none;
+}
+
+
+/* Search details
+ ==================================================================================================================== */
+
+.resuldetail .detailinfo figure {
+    overflow: hidden;
+}
+
+.resuldetail .links .inner_tab,
+.right-column .list .inner_tab,
+.appdetail .inner_tab {
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+}
+
+.right-column .list .appointments_table {
+    padding: 8px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#content .right-column {
+    margin-left: 12px;
+}
+
+.detailmap {
+    background: white;
+    padding: 20px;
+    box-shadow: 1px 1px 2px #999999;
+    margin-bottom: 20px;
+}
+.detailmap #map-canvas {
+    width: 100%;
+    height: 570px;
+}
+.detailmap #map-canvas img {
+    max-width: none;
+}
+
+.right-column .list .button,
+.reservebutton .button {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #999999;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#aaaaaa',GradientType=0 );
+    color: white;
+}
+.right-column .list .button[validated=true],
+.reservebutton .button[validated=true] {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #3199c0;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3199c0', endColorstr='#2c8baf',GradientType=0 );
+    color: white;
+}
+.right-column .list .button,
+.reservebutton .button,
+.right-column .list .button[validated=true],
+.reservebutton .button[validated=true] {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.2)), color-stop(100%, rgba(0, 0, 0, 0.2)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+.right-column .list .button:hover,
+.reservebutton .button:hover,
+.right-column .list .button[validated=true]:hover,
+.reservebutton .button[validated=true]:hover {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+}
+
+.booking .appdetail .left .item1,
+.booking .appdetail .left,
+.booking span,
+.booking label,
+.agree {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.agree_text {
+    padding-left: 15px;
+}
+.booking .appdetail .left .item1,
+.booking .appdetail .left,
+.booking label {
+    font-weight: bold;
+}
+.booking .formfeild .text {
+    font-size: 14px;
+}
+
+.booking .appdetail .left {
+    width: 560px;
+}
+
+.confirmation,
+.confirmation p.first {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+.appdetail #map-canvas {
+    width: 100%;
+    height: 260px;
+}
+.appdetail #map-canvas img {
+    max-width: none;
+}
+
+.myaccount input[type="text"],
+.myaccount input[type="password"] {
+    width: 320px;
+}
+
+.myaccount label,
+.myaccount input,
+.myaccount table,
+.myaccount textarea {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+table.reservation_info {
+    border: 0px;
+}
+table.reservation_info td {
+    vertical-align: top;
+    padding: 4px;
+}
+
+/* Search details
+ ==================================================================================================================== */
+
+.booking .formfeild .text_lower {
+    margin-top: 34px;
+}
+
+#content .right-column-wider {
+    width: 330px;
+    padding: 5px;
+}
+
+
+/* Reservation
+ ==================================================================================================================== */
+@media (max-width: 979px) {
+    .booking .appdetail .left {
+        width: 100%;
+    }
+    .booking .appdetail .right {
+        width: 75%;
+    }
+}
+
+
+/* Static pages
+ ==================================================================================================================== */
+
+.static_page {
+    background: white;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 1px 1px 2px #999999;
+    margin-bottom: 20px;
+}
+.static_page ul {
+    padding-left: 10px;
+}
+.static_page .image {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #666666;
+}
+
+.static_menu {
+    float: left;
+    margin: 0px 20px 20px 0px;
+    padding: 20px 20px 40px 20px;
+
+    /*border: 1px solid #000000;*/
+    box-shadow: 1px 1px 2px #999999;
+    background-color: #eeeeee;
+}
+.static_menu h1.header {
+    margin: 20px 0px 10px 0px;
+    color: #666666;
+    font-size: 18px;
+}
+.static_menu a.link {
+    display: block;
+    margin: 2px 2px 2px 10px;
+    color: #3199c0;
+    font-size: 18px;
+}
+.static_menu a.selected {
+    color: #ff9000;
+}
+.static_menu a.sublink {
+    display: block;
+    margin: 2px 2px 2px 20px;
+    color: #3199c0;
+    font-size: 14px;
+}
+
+.static_content {
+    float: left;
+    max-width: 640px;
+}
+
+
+/* Header
+ ==================================================================================================================== */
+
+.likes {
+    float: right;
+    width: 75px;
+    overflow: hidden;
+    margin: 30px 10px 2px 60px;
+}
+
+.loginbox .signup_link {
+    display: block;
+    margin-left: 4px;
+    margin-top: 3px;
+    color: #3199c0;
+}
+.loginbox .signup_link:hover {
+    color: #ff9000;
+}
+
+.login_overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    overflow-y: scroll;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.login_popup {
+    height: auto;
+    width: 240px;
+    margin-top: 120px;
+    padding: 20px 90px 20px 30px;
+}
+
+.login_popup label,
+.login_popup input,
+.login_popup span,
+.login_popup a {
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+.login_popup label {
+    font-weight: bold;
+}
+
+.close_popup {
+    background: url(../images/closepopup.png) no-repeat bottom left;
+    width: 31px;
+    height: 35px;
+    display: block;
+    right: -10px;
+    top: -10px;
+    position: absolute;
+}
+.login_popup .expanded {
+    float: left;
+    width: 340px;
+    margin: 10px -80px 10px -20px;
+    border-bottom: 1px solid #aaaaaa;
+}
+.login_popup .comment {
+    float: left;
+    width: 340px;
+    /* margin: 10px -80px 10px -20px; */
+    color: black;
+}
+.login_popup .row {
+    float: left;
+    width: 100%;
+    margin: 20px 0px 0px 0px;
+    text-align: left;
+}
+.login_popup label {
+    float: left;
+    clear: both;
+    margin: 4px 0px 4px 0px;
+}
+.login_popup input {
+    float: left;
+    clear: both;
+    text-align: left;
+}
+.login_popup input[type='text'],
+.login_popup input[type='password'] {
+    width: 100%;
+}
+.login_popup .forgot_password {
+    float: left;
+    clear: both;
+    margin-top: 10px;
+}
+
+
+#topbar {
+    height: 59px;
+/*    background: #ff9000 url(../images/topbar.jpg) no-repeat center bottom;    */
+    background: #525252;
+}
+
+/* Footer
+ ==================================================================================================================== */
+#footer ul li {
+    padding-bottom: 6px;
+}
+
+#footer ul li a.link_facebook,
+#footer ul li a.link_google,
+#footer ul li a.link_twitter {
+    color: white;
+}
+#footer ul li a.link_facebook:hover {
+    color: #ff9000;
+    /*  color: #3B5998; */
+}
+#footer ul li a.link_google:hover {
+    color: #ff9000;
+    /* color: red; */
+}
+#footer ul li a.link_twitter:hover {
+    color: #ff9000;
+    /* color: #3199c0; */
+}
+
+
+/* Tooltips
+ ==================================================================================================================== */
+.ui-tooltip {
+    background-color: white;
+}
+.pav_tooltip_white {
+    background-color: white;
+}
+.pav_tooltip_red {
+    background-color: lightcoral;
+    border: red;
+}
+.pav_tooltip_green {
+    background-color: lightgreen;
+    border: green;
+}
+
+/* Custom Stylesheet */
+
+#popular .popularslide #signupbox {
+    bottom: 63px;
+}
+#popular .popularslide #signupbox .input {
+    font-size: 16px;
+}
+
+#popular .popularslide #signupbox .submit {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #fe8f00;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe8f00', endColorstr='#ed8804',GradientType=0 );
+    color: white;
+}
+#popular .popularslide #signupbox .submit[validated=true] {
+    -webkit-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 200ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+
+    background-color: #8ffe00;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8ffe00', endColorstr='#88ed04',GradientType=0 );
+    color: #444444;
+}
+#popular .popularslide #signupbox .submit,
+#popular .popularslide #signupbox .submit[validated=true] {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.2)), color-stop(100%, rgba(0, 0, 0, 0.2)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+#popular .popularslide #signupbox .submit:hover,
+#popular .popularslide #signupbox .submit[validated=true]:hover {
+    background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background-image: linear-gradient(top bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+}
+#footer ul li a.link_facebook {
+	color: #3199c0;
+}
+
+@media (min-width: 1200px) {
+    #popular .popularslide #signupbox {
+        /*bottom: 63px;*/
+        margin: 0px -80px 0px -80px;
+		margin: 0;
+		margin-left: 30px;
+    }
+    #popular .popularslide #signupbox {
+        width: 1100px;
+    }
+    #popular .popularslide #signupbox .item1 {
+        width: 492px;
+    }
+	#popular .popularslide #signupbox .item1 {
+		width: 560px;
+		outline: none;
+		border-bottom: none;
+	}
+	#popular .popularslide #signupbox .item2 {
+		width: 280px;
+		outline: none;
+		border-bottom: none;
+	}
+}
